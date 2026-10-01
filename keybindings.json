@@ -6,8 +6,13 @@
 //   2. Copy the entries below into that file (merge, don't just overwrite).
 // For broader Eclipse-wide coverage (menus, debug F5-F8, perspectives, etc.) also
 // install the recommended "Eclipse Keymap" extension (see .vscode/extensions.json) -
-// the entries here fill in C/C++-specific gestures (cpptools go-to/hierarchy/refactor)
-// that the generic keymap extension doesn't know about.
+// the entries here fill in C/C++-specific gestures (cpptools go-to/hierarchy/refactor,
+// plus a handful of generic gaps it doesn't cover) that the generic keymap extension
+// doesn't know about.
+//
+// Full accounting of every row in eclipse-key-export.csv - what's covered here, what's
+// covered by the Eclipse Keymap extension, what's a stock VS Code default already, and
+// what has no VS Code equivalent - is in COVERAGE.md.
 [
     // Open Declaration (Eclipse: F3)
     {
@@ -67,22 +72,108 @@
         "key": "ctrl+l",
         "command": "workbench.action.gotoLine"
     },
-    // Toggle block comment (Eclipse: Ctrl+Shift+/)
+    // Toggle block comment (Eclipse: Ctrl+Shift+/, also Ctrl+Shift+\)
     {
         "key": "ctrl+shift+/",
         "command": "editor.action.blockComment",
         "when": "editorTextFocus && !editorReadonly"
     },
-    // Open Type Hierarchy (Eclipse: F4)
+    {
+        "key": "ctrl+shift+\\",
+        "command": "editor.action.blockComment",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    // Open Type Hierarchy (Eclipse: F4) - command id fixed to the real references-view
+    // one (editor.showTypeHierarchy doesn't exist; this silently did nothing before)
     {
         "key": "f4",
-        "command": "editor.showTypeHierarchy",
-        "when": "editorTextFocus"
+        "command": "references-view.showTypeHierarchy",
+        "when": "editorLangId =~ /^(c|(cuda-)?cpp)$/ && editorTextFocus"
     },
-    // Open Call Hierarchy (Eclipse: Ctrl+Alt+H) - added alongside VS Code's default Shift+Alt+H
+    // Quick Type Hierarchy (Eclipse: Ctrl+T) and Open Type in Hierarchy (Eclipse:
+    // Ctrl+Shift+H) both map to the same type-hierarchy view; scoped to C/C++ so
+    // Ctrl+T doesn't clobber other editors' behavior
+    {
+        "key": "ctrl+t",
+        "command": "references-view.showTypeHierarchy",
+        "when": "editorLangId =~ /^(c|(cuda-)?cpp)$/ && editorTextFocus"
+    },
+    {
+        "key": "ctrl+shift+h",
+        "command": "references-view.showTypeHierarchy",
+        "when": "editorLangId =~ /^(c|(cuda-)?cpp)$/ && editorTextFocus"
+    },
+    // Open Call Hierarchy (Eclipse: Ctrl+Alt+H) - command id fixed to the real
+    // references-view one (editor.showCallHierarchy doesn't exist); added alongside
+    // VS Code's default Shift+Alt+H
     {
         "key": "ctrl+alt+h",
-        "command": "editor.showCallHierarchy",
+        "command": "references-view.showCallHierarchy",
+        "when": "editorHasCallHierarchyProvider && editorTextFocus"
+    },
+    // Declaration (Eclipse: Ctrl+G) - overrides VS Code's default "Go to Line/Column"
+    // (still reachable via Ctrl+L, which this file maps to gotoLine above)
+    {
+        "key": "ctrl+g",
+        "command": "editor.action.revealDeclaration",
+        "when": "editorTextFocus"
+    },
+    // Indent Line (Eclipse: Ctrl+I)
+    {
+        "key": "ctrl+i",
+        "command": "editor.action.reindentselectedlines",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    // Sort Lines (Eclipse: Ctrl+Alt+S) - scoped to C/C++ so it coexists with the
+    // Eclipse Keymap extension's broader Ctrl+Alt+S -> Save As binding elsewhere
+    {
+        "key": "ctrl+alt+s",
+        "command": "editor.action.sortLinesAscending",
+        "when": "editorLangId =~ /^(c|(cuda-)?cpp)$/ && editorTextFocus && !editorReadonly"
+    },
+    // Shrink selection (Eclipse: Alt+Shift+Down) - the grow direction (Alt+Shift+Up)
+    // is already VS Code's default smart-select-grow
+    {
+        "key": "alt+shift+down",
+        "command": "editor.action.smartSelect.shrink",
+        "when": "editorTextFocus"
+    },
+    // Build Last / Build (Eclipse: F9 / Shift+F9)
+    {
+        "key": "f9",
+        "command": "workbench.action.tasks.reRunTask"
+    },
+    {
+        "key": "shift+f9",
+        "command": "workbench.action.tasks.runTask"
+    },
+    // Build All (Eclipse: Ctrl+B) - overrides default "Toggle Sidebar Visibility"
+    {
+        "key": "ctrl+b",
+        "command": "workbench.action.tasks.build"
+    },
+    // Run to Line (Eclipse debug: Ctrl+R)
+    {
+        "key": "ctrl+r",
+        "command": "editor.debug.action.runToCursor",
+        "when": "editorTextFocus"
+    },
+    // Scroll Line Up/Down without moving the cursor (Eclipse: Ctrl+Up/Down) - not
+    // bound by default in VS Code
+    {
+        "key": "ctrl+up",
+        "command": "scrollLineUp",
+        "when": "editorTextFocus"
+    },
+    {
+        "key": "ctrl+down",
+        "command": "scrollLineDown",
+        "when": "editorTextFocus"
+    },
+    // Toggle Block (Column) Selection (Eclipse: Alt+Shift+A) - not bound by default
+    {
+        "key": "alt+shift+a",
+        "command": "editor.action.toggleColumnSelection",
         "when": "editorTextFocus"
     },
     // Toggle Source/Header (Eclipse CDT: Ctrl+Tab) - scoped to C/C++ files only, so
