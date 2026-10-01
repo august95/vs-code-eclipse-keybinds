@@ -1,0 +1,96 @@
+// Eclipse CDT-style keyboard shortcuts for working with the C/C++ code in this repo.
+//
+// VS Code only loads keybindings.json from the USER profile, not from a workspace
+// folder, so this file won't take effect just by sitting in .vscode/. To use it:
+//   1. Run "Preferences: Open Keyboard Shortcuts (JSON)" from the Command Palette.
+//   2. Copy the entries below into that file (merge, don't just overwrite).
+// For broader Eclipse-wide coverage (menus, debug F5-F8, perspectives, etc.) also
+// install the recommended "Eclipse Keymap" extension (see .vscode/extensions.json) -
+// the entries here fill in C/C++-specific gestures (cpptools go-to/hierarchy/refactor)
+// that the generic keymap extension doesn't know about.
+[
+    // Open Declaration (Eclipse: F3)
+    {
+        "key": "f3",
+        "command": "editor.action.revealDefinition",
+        "when": "editorTextFocus && !findWidgetVisible"
+    },
+    // Find References in workspace (Eclipse: Ctrl+Shift+G)
+    {
+        "key": "ctrl+shift+g",
+        "command": "editor.action.referenceSearch.trigger",
+        "when": "editorHasReferenceProvider && editorTextFocus"
+    },
+    // Rename (Eclipse: Alt+Shift+R) - added alongside VS Code's default F2
+    {
+        "key": "alt+shift+r",
+        "command": "editor.action.rename",
+        "when": "editorHasRenameProvider && editorTextFocus && !editorReadonly"
+    },
+    // Format (Eclipse: Ctrl+Shift+F) - overrides default "Find in Files"
+    {
+        "key": "ctrl+shift+f",
+        "command": "editor.action.formatDocument",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    // Quick Outline (Eclipse: Ctrl+O) - overrides default "Open File"
+    {
+        "key": "ctrl+o",
+        "command": "workbench.action.gotoSymbol",
+        "when": "editorTextFocus"
+    },
+    // Quick Fix / Quick Assist (Eclipse: Ctrl+1) - overrides default "Open Editor Group 1"
+    {
+        "key": "ctrl+1",
+        "command": "editor.action.quickFix",
+        "when": "editorHasCodeActionsProvider && editorTextFocus && !editorReadonly"
+    },
+    // Delete Line (Eclipse: Ctrl+D) - overrides default "Add Selection To Next Find Match"
+    {
+        "key": "ctrl+d",
+        "command": "editor.action.deleteLines",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    // Duplicate Lines (Eclipse: Ctrl+Alt+Up/Down) - overrides default "Insert Cursor Above/Below"
+    {
+        "key": "ctrl+alt+down",
+        "command": "editor.action.copyLinesDownAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    {
+        "key": "ctrl+alt+up",
+        "command": "editor.action.copyLinesUpAction",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    // Go to Line (Eclipse: Ctrl+L) - overrides default "Expand Line Selection"
+    {
+        "key": "ctrl+l",
+        "command": "workbench.action.gotoLine"
+    },
+    // Toggle block comment (Eclipse: Ctrl+Shift+/)
+    {
+        "key": "ctrl+shift+/",
+        "command": "editor.action.blockComment",
+        "when": "editorTextFocus && !editorReadonly"
+    },
+    // Open Type Hierarchy (Eclipse: F4)
+    {
+        "key": "f4",
+        "command": "editor.showTypeHierarchy",
+        "when": "editorTextFocus"
+    },
+    // Open Call Hierarchy (Eclipse: Ctrl+Alt+H) - added alongside VS Code's default Shift+Alt+H
+    {
+        "key": "ctrl+alt+h",
+        "command": "editor.showCallHierarchy",
+        "when": "editorTextFocus"
+    },
+    // Toggle Source/Header (Eclipse CDT: Ctrl+Tab) - scoped to C/C++ files only, so
+    // Ctrl+Tab still cycles editors everywhere else (its normal VS Code behavior).
+    // Alt+O (cpptools' own default for the same command) keeps working too.
+    {
+        "key": "ctrl+tab",
+        "command": "C_Cpp.SwitchHeaderSource",
+        "when": "editorLangId =~ /^(c|(cuda-)?cpp)$/ && editorTextFocus && !(config.C_Cpp.intelliSenseEngine =~ /^[dD]isabled$/)"
+    }
+]
