@@ -181,7 +181,7 @@
     // Alt+O (cpptools' own default for the same command) keeps working too.
     {
         "key": "ctrl+tab",
-        "command": "C_Cpp.SwitchHeaderSource",
-        "when": "editorLangId =~ /^(c|(cuda-)?cpp)$/ && editorTextFocus && !(config.C_Cpp.intelliSenseEngine =~ /^[dD]isabled$/)"
+        "command": "clangd.switchheadersource",
+        "when": "editorLangId =~ /^(c|(cuda-)?cpp)$/ && editorTextFocus && config.C_Cpp.intelliSenseEngine =~ /^[dD]isabled$/"
     }
 ]
